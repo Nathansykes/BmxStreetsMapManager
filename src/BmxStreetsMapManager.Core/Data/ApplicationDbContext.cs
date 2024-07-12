@@ -16,6 +16,9 @@ public class ApplicationDbContext() : DbContext
         if (!Directory.Exists(DbFolderPath))
             Directory.CreateDirectory(DbFolderPath);
         options.UseSqlite($"Data Source={DbFilePath}");
+
+        options.UseLazyLoadingProxies();
+
         base.OnConfiguring(options);
     }
 
