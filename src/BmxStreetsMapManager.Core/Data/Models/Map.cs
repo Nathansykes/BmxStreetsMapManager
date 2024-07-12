@@ -3,8 +3,8 @@ public class Map
 {
     public int Id { get; set; }
 
-    public string LocalPath { get; set; } = null!;
-    public string LocalName { get; set; } = null!;
+    public required string LocalPath { get; set; } = null!;
+    public required string LocalName { get; set; } = null!;
 
     public int? ModIOId { get; set; }
     public string? ModIOName { get; set; }
