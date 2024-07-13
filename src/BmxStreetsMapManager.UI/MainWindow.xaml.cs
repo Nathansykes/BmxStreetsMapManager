@@ -9,12 +9,13 @@ namespace BmxStreetsMapManager.UI;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private static readonly MainViewModel _viewModel = new();
+    protected MainViewModel ViewModel { get; }
 
     public MainWindow()
     {
         InitializeComponent();
-        _viewModel.LoadMaps();
+        ViewModel = (MainViewModel)this.DataContext!;
+        ViewModel.LoadMaps();
     }
 
     private void btnDetectMaps_Click(object sender, RoutedEventArgs e)
@@ -23,7 +24,7 @@ public partial class MainWindow : Window
         var ogContent = btnDetectMaps.Content.ToString();
         btnDetectMaps.Content = "Detecting Maps...";
 
-        _viewModel.LoadMaps();
+        ViewModel.LoadMaps();
         
         btnDetectMaps.Content = ogContent;
         btnDetectMaps.IsEnabled = true;
