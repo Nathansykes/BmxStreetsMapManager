@@ -1,4 +1,0 @@
-<Solution>
-  <Project Path="BmxStreetsMapManager.Core\BmxStreetsMapManager.Core.csproj" />
-  <Project Path="BmxStreetsMapManager.UI\BmxStreetsMapManager.UI.csproj" Type="Classic C#" />
-</Solution>
