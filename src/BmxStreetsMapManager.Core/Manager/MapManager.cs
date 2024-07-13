@@ -25,7 +25,7 @@ public class MapManager : IDisposable
         
         return foundMaps.Select(x => new Map
         {
-            LocalName = Path.GetFileName(x),
+            LocalName = Path.GetFileName(x) ?? "",
             LocalPath = Path.GetFullPath(x)
         }).ToList();
     }

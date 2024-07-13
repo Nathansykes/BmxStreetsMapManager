@@ -3,15 +3,23 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BmxStreetsMapManager.UI"
+        xmlns:local="clr-namespace:BmxStreetsMapManager.UI.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="720" Width="1388">
+    <Window.DataContext>
+        <local:MainViewModel />
+    </Window.DataContext>
     <Grid>
-        <TextBlock Text="BMX Streets Map Manager" FontSize="30px" Margin="10,10,429,378" TextDecorations="Underline" />
-        <TextBlock HorizontalAlignment="Left" Margin="10,75,0,0" FontSize="15px" TextWrapping="Wrap" VerticalAlignment="Top" Height="33" Width="144">
+        <TextBlock Text="BMX Streets Map Manager" FontSize="25px" Margin="10,10,479,559" TextDecorations="Underline" />
+        <TextBlock HorizontalAlignment="Left" Margin="10,44,0,0" FontSize="15px" TextWrapping="Wrap" VerticalAlignment="Top" Height="33" Width="144">
             Total Maps:
             <Run Name="txtTotalMapCount" Text="0"></Run>
         </TextBlock>
-        <Button Name="btnDetectMaps" Content="Detect Maps" HorizontalAlignment="Left" Margin="625,60,0,0" VerticalAlignment="Top" Width="140" Click="btnDetectMaps_Click" Height="30"/>
+        <Button Name="btnDetectMaps" Content="Detect Maps" HorizontalAlignment="Center" Margin="0,78,0,0" VerticalAlignment="Top" Width="140" Click="btnDetectMaps_Click" Height="30"/>
+        <ListBox ItemsSource="{Binding Maps}"
+                 SelectionMode="Single"
+                 SelectedItem="{Binding SelectedMap, Mode=TwoWay}"
+                 DisplayMemberPath="LocalName"
+                 Margin="10,75,778,10"/>
     </Grid>
 </Window>
