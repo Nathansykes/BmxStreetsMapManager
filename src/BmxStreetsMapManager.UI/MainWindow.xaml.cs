@@ -24,7 +24,6 @@ public partial class MainWindow : Window
         btnDetectMaps.Content = "Detecting Maps...";
 
         _viewModel.LoadMaps();
-        txtTotalMapCount.Text = _viewModel.Maps.Count.ToString();
         
         btnDetectMaps.Content = ogContent;
         btnDetectMaps.IsEnabled = true;

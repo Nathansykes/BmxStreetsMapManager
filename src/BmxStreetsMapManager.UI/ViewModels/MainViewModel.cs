@@ -12,6 +12,7 @@ namespace BmxStreetsMapManager.UI.ViewModels;
 public class MainViewModel
 {
     public ObservableCollection<Map> Maps { get; set; }
+    public int MapCount { get => Maps.Count; set { } }
     public Map? SelectedMap { get; set; }
 
     public MainViewModel()

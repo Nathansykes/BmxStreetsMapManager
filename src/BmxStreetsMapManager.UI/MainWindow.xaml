@@ -13,7 +13,7 @@
         <TextBlock Text="BMX Streets Map Manager" FontSize="25px" Margin="10,10,479,559" TextDecorations="Underline" />
         <TextBlock HorizontalAlignment="Left" Margin="10,44,0,0" FontSize="15px" TextWrapping="Wrap" VerticalAlignment="Top" Height="33" Width="144">
             Total Maps:
-            <Run Name="txtTotalMapCount" Text="0"></Run>
+            <Run Text="{Binding MapCount}"></Run>
         </TextBlock>
         <Button Name="btnDetectMaps" Content="Detect Maps" HorizontalAlignment="Center" Margin="0,78,0,0" VerticalAlignment="Top" Width="140" Click="btnDetectMaps_Click" Height="30"/>
         <ListBox ItemsSource="{Binding Maps}"
@@ -21,5 +21,11 @@
                  SelectedItem="{Binding SelectedMap, Mode=TwoWay}"
                  DisplayMemberPath="LocalName"
                  Margin="10,75,778,10"/>
+        <StackPanel Grid.Row="1" Margin="798,78,28,474">
+            <TextBlock Text="Details:" FontWeight="Bold"/>
+            <TextBlock Text="{Binding SelectedMap.LocalName}" Margin="0,5"/>
+            <TextBlock Text="{Binding SelectedMap.LocalPath}" Margin="0,5"/>
+            <TextBlock Text="{Binding SelectedMap.ModIOName}" Margin="0,5"/>
+        </StackPanel>
     </Grid>
 </Window>
