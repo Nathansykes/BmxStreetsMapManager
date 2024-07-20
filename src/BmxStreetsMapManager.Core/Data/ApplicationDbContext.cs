@@ -7,7 +7,10 @@ public class ApplicationDbContext() : DbContext
     public virtual DbSet<Profile> Profiles { get; set; }
     public virtual DbSet<Map> Maps { get; set; }
     public virtual DbSet<MapProfiles> MapProfiles { get; set; }
-    public virtual DbSet<UserConfig> UserConfig { get; set; }
+    protected virtual DbSet<UserConfig> UserConfigs { get; set; }
+    public virtual UserConfig? UserConfig => UserConfigs.SingleOrDefault();
+
+
 
     private static readonly string DbFolderPath = Path.Combine(Constants.WorkingDirectory, "data");
     private static readonly string DbFilePath = Path.Combine(DbFolderPath, "app.db");
@@ -27,5 +30,51 @@ public class ApplicationDbContext() : DbContext
         EntityConfiguration.Configure(builder);
 
         base.OnModelCreating(builder);
+    }
+
+    public override int SaveChanges()
+    {
+        OnBeforeSaveChanges();
+        int num = base.SaveChanges();
+        OnAfterSaveChanges();
+        return num;
+    }
+
+    public override int SaveChanges(bool acceptAllChangesOnSuccess)
+    {
+        OnBeforeSaveChanges();
+        int num = base.SaveChanges(acceptAllChangesOnSuccess);
+        OnAfterSaveChanges();
+        return num;
+    }
+
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        OnBeforeSaveChanges();
+        int num = await base.SaveChangesAsync(cancellationToken);
+        OnAfterSaveChanges();
+        return num;
+    }
+
+    public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+    {
+        OnBeforeSaveChanges();
+        int num = await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        OnAfterSaveChanges();
+        return num;
+    }
+
+    private void OnBeforeSaveChanges()
+    {
+        var countNewAdded = ChangeTracker.Entries<UserConfig>().Count(e => e.State == EntityState.Added);
+        var countInTable = UserConfigs.Count();
+
+        if (countNewAdded > 1 || (countNewAdded > 0 && countInTable > 0))
+            throw new InvalidOperationException("Only one UserConfig entity can exist at a time.");
+    }
+
+    private void OnAfterSaveChanges()
+    {
+
     }
 }

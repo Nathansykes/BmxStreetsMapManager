@@ -13,7 +13,7 @@ public static class ModIOClient
         var userSettings = dbContext.UserConfig.Single();
         var client = new HttpClient
         {
-            BaseAddress = new Uri($"https://u-{userSettings}.modapi.io/v1/")
+            BaseAddress = new Uri($"https://u-{userSettings.ModIOUserId}.modapi.io/v1/")
         };
         client.DefaultRequestHeaders.Authorization = new("Bearer", userSettings.ModIOApiToken);
 
