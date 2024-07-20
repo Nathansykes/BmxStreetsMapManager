@@ -8,9 +8,20 @@ public class ApplicationDbContext() : DbContext
     public virtual DbSet<Map> Maps { get; set; }
     public virtual DbSet<MapProfiles> MapProfiles { get; set; }
     protected virtual DbSet<UserConfig> UserConfigs { get; set; }
-    public virtual UserConfig? UserConfig => UserConfigs.SingleOrDefault();
-
-
+    public virtual UserConfig UserConfig
+    {
+        get
+        {
+            var config = UserConfigs.SingleOrDefault();
+            if (config is null)
+            {
+                config = new UserConfig();
+                UserConfigs.Add(config);
+                SaveChanges();
+            }
+            return config;
+        }
+    }
 
     private static readonly string DbFolderPath = Path.Combine(Constants.WorkingDirectory, "data");
     private static readonly string DbFilePath = Path.Combine(DbFolderPath, "app.db");

@@ -10,12 +10,14 @@ public static class ModIOClient
     private static HttpClient SetupClient()
     {
         using var dbContext = new ApplicationDbContext();
-        var userSettings = dbContext.UserConfig.Single();
+        if (string.IsNullOrWhiteSpace(dbContext.UserConfig.ModIOUserId) || string.IsNullOrWhiteSpace(dbContext.UserConfig.ModIOApiToken))
+            throw new InvalidOperationException("Mod.io API credentials not set.");
+        
         var client = new HttpClient
         {
-            BaseAddress = new Uri($"https://u-{userSettings.ModIOUserId}.modapi.io/v1/")
+            BaseAddress = new Uri($"https://u-{dbContext.UserConfig.ModIOUserId}.modapi.io/v1/")
         };
-        client.DefaultRequestHeaders.Authorization = new("Bearer", userSettings.ModIOApiToken);
+        client.DefaultRequestHeaders.Authorization = new("Bearer", dbContext.UserConfig.ModIOApiToken);
 
         return client;
     }
