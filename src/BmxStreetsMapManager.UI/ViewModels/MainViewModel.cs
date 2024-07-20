@@ -1,12 +1,7 @@
 ﻿using BmxStreetsMapManager.Core.Data.Models;
 using BmxStreetsMapManager.Core.Manager;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BmxStreetsMapManager.UI.ViewModels;
 public class MainViewModel

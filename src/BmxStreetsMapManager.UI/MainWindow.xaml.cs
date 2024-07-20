@@ -1,6 +1,4 @@
-﻿using BmxStreetsMapManager.Core.Data.Models;
-using BmxStreetsMapManager.Core.Manager;
-using BmxStreetsMapManager.UI.ViewModels;
+﻿using BmxStreetsMapManager.UI.ViewModels;
 using System.Windows;
 
 namespace BmxStreetsMapManager.UI;
@@ -25,7 +23,7 @@ public partial class MainWindow : Window
         btnDetectMaps.Content = "Detecting Maps...";
 
         ViewModel.LoadMaps();
-        
+
         btnDetectMaps.Content = ogContent;
         btnDetectMaps.IsEnabled = true;
     }

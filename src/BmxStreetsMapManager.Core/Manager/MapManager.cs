@@ -1,10 +1,5 @@
 ﻿using BmxStreetsMapManager.Core.Data;
 using BmxStreetsMapManager.Core.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BmxStreetsMapManager.Core.Manager;
 public class MapManager : IDisposable
@@ -14,7 +9,7 @@ public class MapManager : IDisposable
 
     public List<Map> GetMaps()
     {
-        
+
         return [];
     }
 
@@ -22,7 +17,7 @@ public class MapManager : IDisposable
     {
         List<Map> maps = [];
         var foundMaps = Directory.GetDirectories(BmxStreetsConsts.BmxStreetsMapDirectory).ToList().Where(IsMap).ToList();
-        
+
         return foundMaps.Select(x => new Map
         {
             LocalName = Path.GetFileName(x) ?? "",
