@@ -11,10 +11,10 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
-        Task.Run(MigrateDatabase);
+        Task.Run(MigrateDatabaseAsync);
     }
 
-    private static async Task MigrateDatabase()
+    private static async Task MigrateDatabaseAsync()
     {
         using var context = new ApplicationDbContext();
         await context.Database.EnsureCreatedAsync();

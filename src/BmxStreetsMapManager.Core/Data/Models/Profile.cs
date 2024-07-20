@@ -5,5 +5,5 @@ public class Profile
 
     public string Name { get; set; } = null!;
 
-    public virtual ICollection<MapProfiles> MapProfiles { get; set; } = new List<MapProfiles>();
+    public virtual ICollection<MapProfiles> MapProfiles { get; set; } = [];
 }

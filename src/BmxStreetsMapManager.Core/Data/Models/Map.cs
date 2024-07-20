@@ -10,5 +10,5 @@ public class Map
     public string? ModIOName { get; set; }
     public string? ModIOVersion { get; set; }
 
-    public virtual ICollection<MapProfiles> MapProfiles { get; set; } = new List<MapProfiles>();
+    public virtual ICollection<MapProfiles> MapProfiles { get; set; } = [];
 }

@@ -12,7 +12,7 @@ public static class ModIOClient
         using var dbContext = new ApplicationDbContext();
         if (string.IsNullOrWhiteSpace(dbContext.UserConfig.ModIOUserId) || string.IsNullOrWhiteSpace(dbContext.UserConfig.ModIOApiToken))
             throw new InvalidOperationException("Mod.io API credentials not set.");
-        
+
         var client = new HttpClient
         {
             BaseAddress = new Uri($"https://u-{dbContext.UserConfig.ModIOUserId}.modapi.io/v1/")
