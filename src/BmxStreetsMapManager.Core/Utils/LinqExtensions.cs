@@ -12,4 +12,13 @@ public static class LinqExtensions
                     select x).FirstOrDefault();
         return item;
     }
+
+    public static IEnumerable<(TFirst Source, TSecond? Matched)> FuzzyZip<TFirst, TSecond>(this IEnumerable<TFirst> first,
+        IEnumerable<TSecond> second,
+        Func<TFirst, string> firstPropertySelector,
+        Func<TSecond, string> secondPropertySelector,
+        int minMatchPercent = 60)
+    {
+        return first.Select(x => (x, second.FuzzyFind(secondPropertySelector, firstPropertySelector(x), minMatchPercent)));
+    }
 }

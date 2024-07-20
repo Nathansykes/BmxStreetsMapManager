@@ -1,5 +1,7 @@
-﻿using BmxStreetsMapManager.Core.Data;
+﻿using BmxStreetsMapManager.Core.API;
+using BmxStreetsMapManager.Core.Data;
 using BmxStreetsMapManager.Core.Data.Models;
+using BmxStreetsMapManager.Core.Utils;
 
 namespace BmxStreetsMapManager.Core.Manager;
 public class MapManager : IDisposable
@@ -7,10 +9,36 @@ public class MapManager : IDisposable
     private ApplicationDbContext? _context;
     protected ApplicationDbContext Context => _context ??= new();
 
-    public List<Map> GetMaps()
+    private async Task MatchMaps()
     {
+        var subscribedMaps = await GetMaps();
+        var localMaps = DetectLocalMaps();
 
-        return [];
+        var matchedMaps = localMaps.FuzzyZip(subscribedMaps, loc => loc.LocalName, sub => sub.Name!).ToList();
+
+        foreach (var (source, matched) in matchedMaps)
+        {
+            if (matched is null)
+                continue;
+            var found = Context.Maps.FirstOrDefault(x => x.LocalPath == source.LocalPath);
+            if (found is not null)
+                continue;
+            var entity = new Map
+            {
+                LocalName = source.LocalName,
+                LocalPath = source.LocalPath,
+                ModIOId = matched.Id,
+                ModIOName = matched.Name,
+                ModIOVersion = matched.Modfile?.Version,
+            };
+            Context.Maps.Add(entity);
+            Context.SaveChanges();
+        }
+    }
+
+    public async Task<List<ModObject>> GetMaps()
+    {
+        return await ModIOClient.GetSubscribedMods(null);
     }
 
     public List<Map> DetectLocalMaps()

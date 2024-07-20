@@ -60,13 +60,13 @@ public class ModObject
     public UserProfile? SubmittedBy { get; set; }
 
     [JsonPropertyName("date_added")]
-    public int DateAdded { get; set; }
+    public DateTime DateAdded { get; set; }
 
     [JsonPropertyName("date_updated")]
-    public int DateUpdated { get; set; }
+    public DateTime DateUpdated { get; set; }
 
     [JsonPropertyName("date_live")]
-    public int DateLive { get; set; }
+    public DateTime DateLive { get; set; }
 
     [JsonPropertyName("maturity_option")]
     public int MaturityOption { get; set; }
