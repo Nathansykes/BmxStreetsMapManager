@@ -27,6 +27,9 @@ namespace BmxStreetsMapManager.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("ImageFileName")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("LocalName")
                         .IsRequired()
                         .HasColumnType("TEXT");

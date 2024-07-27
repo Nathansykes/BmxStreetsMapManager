@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BmxStreetsMapManager.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240720112127_InitialCreate")]
+    [Migration("20240727160723_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -29,6 +29,9 @@ namespace BmxStreetsMapManager.Core.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("ImageFileName")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("LocalName")
                         .IsRequired()

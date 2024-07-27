@@ -18,6 +18,7 @@ namespace BmxStreetsMapManager.Core.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     LocalPath = table.Column<string>(type: "TEXT", nullable: false),
                     LocalName = table.Column<string>(type: "TEXT", nullable: false),
+                    ImageFileName = table.Column<string>(type: "TEXT", nullable: true),
                     ModIOId = table.Column<int>(type: "INTEGER", nullable: true),
                     ModIOName = table.Column<string>(type: "TEXT", nullable: true),
                     ModIOVersion = table.Column<string>(type: "TEXT", nullable: true)
