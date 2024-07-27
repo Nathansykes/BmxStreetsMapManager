@@ -15,7 +15,7 @@ public partial class MainWindow : Window, IDisposable
     {
         InitializeComponent();
         ViewModel = (MainViewModel)this.DataContext!;
-        ViewModel.LoadMaps();
+        ViewModel.Setup();
     }
 
     protected virtual void Dispose(bool disposing)

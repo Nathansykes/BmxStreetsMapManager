@@ -56,4 +56,10 @@ public class MainViewModel : IDisposable
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
     }
+
+    public void Setup()
+    {
+        LoadMaps();
+        Task.Run(InitialSetup.Run);
+    }
 }

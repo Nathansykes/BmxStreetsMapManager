@@ -14,7 +14,5 @@ public static class InitialSetup
 
 
         var maps = manager.MatchMaps();
-
-
     }
 }

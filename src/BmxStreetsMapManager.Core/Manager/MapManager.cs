@@ -7,6 +7,7 @@ using System.IO.Compression;
 namespace BmxStreetsMapManager.Core.Manager;
 public class MapManager : IDisposable
 {
+    private static readonly string[] imgExtensions = [ "png", "jpg", "bmp", "jpeg" ];
     private ApplicationDbContext? _context;
     protected ApplicationDbContext Context => _context ??= new();
     public int? CurrentProfileId { get; private set; }
@@ -37,6 +38,7 @@ public class MapManager : IDisposable
             {
                 LocalName = source.LocalName,
                 LocalPath = source.LocalPath,
+                ImageFileName = FindFileName(source.LocalPath),
                 ModIOId = matched?.Id,
                 ModIOName = matched?.Name,
                 ModIOVersion = matched?.Modfile?.Version,
@@ -46,6 +48,14 @@ public class MapManager : IDisposable
             AddMapToCurrentProfile(entity);
         }
     }
+
+    private static string? FindFileName(string localPath)
+    {
+        var files = Directory.GetFiles(localPath);
+        var image = files.FirstOrDefault(x => imgExtensions.Contains(Path.GetExtension(x)));
+        return Path.GetFileName(image);
+    }
+
 
     private void AddMapToCurrentProfile(Map entity)
     {
