@@ -5,6 +5,7 @@ public class Map
 
     public required string LocalPath { get; set; } = null!;
     public required string LocalName { get; set; } = null!;
+    public string? ImageFileName { get; set; }
 
     public int? ModIOId { get; set; }
     public string? ModIOName { get; set; }

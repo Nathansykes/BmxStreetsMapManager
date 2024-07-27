@@ -13,7 +13,7 @@ public static class LinqExtensions
         return item;
     }
 
-    public static IEnumerable<(TFirst Source, TSecond? Matched)> FuzzyZip<TFirst, TSecond>(this IEnumerable<TFirst> first,
+    public static IEnumerable<(TFirst Source, TSecond? Matched)> FuzzyJoin<TFirst, TSecond>(this IEnumerable<TFirst> first,
         IEnumerable<TSecond> second,
         Func<TFirst, string> firstPropertySelector,
         Func<TSecond, string> secondPropertySelector,

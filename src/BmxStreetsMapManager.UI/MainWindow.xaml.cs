@@ -5,8 +5,10 @@ namespace BmxStreetsMapManager.UI;
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
-public partial class MainWindow : Window
+public partial class MainWindow : Window, IDisposable
 {
+    private bool _disposedValue;
+
     protected MainViewModel ViewModel { get; }
 
     public MainWindow()
@@ -16,15 +18,22 @@ public partial class MainWindow : Window
         ViewModel.LoadMaps();
     }
 
-    private void btnDetectMaps_Click(object sender, RoutedEventArgs e)
+    protected virtual void Dispose(bool disposing)
     {
-        btnDetectMaps.IsEnabled = false;
-        var ogContent = btnDetectMaps.Content.ToString();
-        btnDetectMaps.Content = "Detecting Maps...";
+        if (!_disposedValue)
+        {
+            if (disposing)
+            {
+                ViewModel?.Dispose();
+            }
 
-        ViewModel.LoadMaps();
+            _disposedValue = true;
+        }
+    }
 
-        btnDetectMaps.Content = ogContent;
-        btnDetectMaps.IsEnabled = true;
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }

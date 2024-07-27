@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BmxStreetsMapManager.UI.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1388">
+        Title="MainWindow" Height="720" Width="1388"
+        ResizeMode="NoResize">
     <Window.DataContext>
         <local:MainViewModel />
     </Window.DataContext>
@@ -15,17 +16,17 @@
             Total Maps:
             <Run Text="{Binding MapCount}"></Run>
         </TextBlock>
-        <Button Name="btnDetectMaps" Content="Detect Maps" HorizontalAlignment="Center" Margin="0,78,0,0" VerticalAlignment="Top" Width="140" Click="btnDetectMaps_Click" Height="30"/>
         <ListBox ItemsSource="{Binding Maps}"
                  SelectionMode="Single"
                  SelectedItem="{Binding SelectedMap, Mode=TwoWay}"
                  DisplayMemberPath="LocalName"
-                 Margin="10,75,778,10"/>
-        <StackPanel Grid.Row="1" Margin="798,78,28,474">
+                 Margin="10,75,694,10"/>
+        <StackPanel Margin="718,78,28,492">
             <TextBlock Text="Details:" FontWeight="Bold"/>
             <TextBlock Text="{Binding SelectedMap.LocalName}" Margin="0,5"/>
             <TextBlock Text="{Binding SelectedMap.LocalPath}" Margin="0,5"/>
             <TextBlock Text="{Binding SelectedMap.ModIOName}" Margin="0,5"/>
         </StackPanel>
+        <Image Source="{Binding SelectedMap.ImageFileName}"  HorizontalAlignment="Left" Height="360" Margin="718,323,0,0" VerticalAlignment="Top" Width="642"/>
     </Grid>
 </Window>
