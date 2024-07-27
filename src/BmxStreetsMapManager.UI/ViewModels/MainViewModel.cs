@@ -1,30 +1,50 @@
 ﻿using BmxStreetsMapManager.Core.Data.Models;
 using BmxStreetsMapManager.Core.Manager;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace BmxStreetsMapManager.UI.ViewModels;
-public class MainViewModel : IDisposable
+public class MainViewModel : IDisposable, INotifyPropertyChanged
 {
     private bool _disposedValue;
 
     public ObservableCollection<Map> Maps { get; set; }
     public int MapCount { get => Maps.Count; set { } }
-    public Map? SelectedMap { get; set; }
+    private Map? _selectedMap;
+    public Map? SelectedMap { 
+        get => _selectedMap;
+        set
+        {
+            if (_selectedMap != value)
+            {
+                _selectedMap = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(SelectedMapImagePath));
+            }
+        }
+    }
+    public string SelectedMapImagePath => SelectedMap?.ImageFileName is null
+        ? "" //TODO: Add a placeholder image
+        : Path.Combine(SelectedMap.LocalPath, SelectedMap.ImageFileName);
 
     private readonly MapManager _manager;
 
     public MainViewModel()
     {
         _manager = new MapManager();
-        LoadMaps();
+        Maps = [];
     }
 
-    [MemberNotNull(nameof(Maps))]
-    public void LoadMaps()
+    public void LoadMaps(ICollection<Map> maps)
     {
-        var maps = _manager.DetectLocalMaps();
-        Maps = new ObservableCollection<Map>(maps);
+        Maps.Clear();
+        foreach (var item in maps.OrderBy(x => x.LocalName))
+        {
+            Maps.Add(item);
+        }
     }
 
     public void RenameMap(string newMapName)
@@ -51,15 +71,24 @@ public class MainViewModel : IDisposable
         }
     }
 
+    public void Setup()
+    {
+        InitialSetup.Run();
+        var maps = _manager.GetMaps();
+        LoadMaps(maps);
+    }
+
+
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+    protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
     public void Dispose()
     {
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
     }
 
-    public void Setup()
-    {
-        LoadMaps();
-        Task.Run(InitialSetup.Run);
-    }
 }

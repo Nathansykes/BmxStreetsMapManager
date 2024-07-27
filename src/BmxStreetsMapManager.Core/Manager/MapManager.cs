@@ -52,7 +52,9 @@ public class MapManager : IDisposable
     private static string? FindFileName(string localPath)
     {
         var files = Directory.GetFiles(localPath);
-        var image = files.FirstOrDefault(x => imgExtensions.Contains(Path.GetExtension(x)));
+        var image = files.FirstOrDefault(x => imgExtensions.Contains(Path.GetExtension(x).TrimStart('.')));
+        if (string.IsNullOrEmpty(image))
+            return null;
         return Path.GetFileName(image);
     }
 
@@ -66,42 +68,39 @@ public class MapManager : IDisposable
             Profile = profile,
             IsEnabled = true
         });
+        Context.SaveChanges();
     }
 
     private Profile GetCurrentProfile(bool createIfNotFound)
     {
         var profile = Context.Profiles.FirstOrDefault(x => x.Id == CurrentProfileId);
-        if (profile is null && (!createIfNotFound))
+        if(profile is not null)
+            return profile;
+
+        if (!createIfNotFound)
             throw new Exception();
-        else if (profile is null)
+
+        const string defaultProfileName = "Default";
+        profile = Context.Profiles.FirstOrDefault(x => x.Name == defaultProfileName);
+        if (profile is null)
         {
             profile = new Profile()
             {
-                Name = GeProfileName("Default"),
+                Name = defaultProfileName,
             };
             Context.Add(profile);
             Context.SaveChanges();
-            LoadProfile(profile.Id);
         }
+        LoadProfile(profile.Id);
 
         return profile;
     }
-    private string GeProfileName(string name)
+    public List<Map> GetMaps()
     {
-        var existing = Context.Profiles.FirstOrDefault(x => x.Name == name);
-        int num = 1;
-        string newName = name;
-        while (existing is not null)
-        {
-            newName = $"{name}-{num}";
-            existing = Context.Profiles.FirstOrDefault(x => x.Name == name);
-        }
-        return newName;
-    }
-
-    public async Task<List<ModObject>> GetMaps()
-    {
-        return await ModIOClient.GetSubscribedMods(null);
+        var profile = GetCurrentProfile(true);
+        if (profile.MapProfiles.Count == 0)
+            return DetectLocalMaps();
+        return profile.MapProfiles.Select(x => x.Map).ToList();
     }
 
     public List<Map> DetectLocalMaps()
